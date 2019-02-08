@@ -7,6 +7,11 @@ environment:
       VS_VERSION: 15
       ARCH: amd64
 
+init:
+  - ps: Set-WinSystemLocale ja-JP
+  - ps: Start-Sleep -s 10
+  - ps: Restart-Computer
+
 install:
   - if "%VS_VERSION%" == "15" if "%ARCH%" == "x86" set VS2017_X86=TRUE
   - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" set VS2017_AMD64=TRUE
