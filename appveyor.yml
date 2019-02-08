@@ -27,6 +27,7 @@ build_script:
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% 2017
   - if "%ARCH%" == "amd64"
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% Win64
+  - set
   - cmake . -G "%CMAKE_GENERATOR_NAME%"
       -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
