@@ -2,4 +2,4 @@ cmake_minimum_required(VERSION 2.8.9)
 project(hello)
 add_executable(hello hello.c)
 
-install(FILES "hello" DESTINATION "${CMAKE_INSTALL_PREFIX}")
+install(TARGETS hello DESTINATION bin)
