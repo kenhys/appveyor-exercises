@@ -8,7 +8,13 @@ environment:
       ARCH: amd64
 
 init:
+  - ps: Set-WinUserLanguageList ja-jp,en-US -Force
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/kenhys/appveyor-langpack/langpack/langja.ps1'))
+  - ps: Start-Sleep -s 10
+  - ps: Restart-Computer
+  - ps: Set-WinUILanguageOverride ja-JP
   - ps: Set-WinSystemLocale ja-JP
+  - ps: Set-WinHomeLocation 0x7A
   - ps: Start-Sleep -s 10
   - ps: Restart-Computer
 
