@@ -38,5 +38,24 @@ build_script:
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
 
+before_test:
+  - git clone --depth 1
+      https://github.com/groonga/groonga.git
+  - git clone --depth 1
+      https://github.com/groonga/grntest.git
+      groonga\test\command\grntest
+  - cd groonga\test\command\grntest
+  - bundle install --binstubs=..\bin
+  - cd ..\..\..\..
+  - del groonga\test\command\suite\select\filter\equal\vector_element_float.test
+  - ps: Start-FileDownload 'https://packages.groonga.org/windows/groonga/groonga-9.0.0-x64.zip'
+  - 7z x groonga-9.0.0-x64.zip
+
+test_script:
+  - set PATH=C:\Ruby25-x64\bin;%PATH%
+  - set PATH=groonga-9.0.0-x64\bin;%PATH%
+  - ruby groonga\test\command_line\run-test.rb
+     --groonga-install-prefix=%FULL_GROONGA_INSTALL_FOLDER%
+
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
