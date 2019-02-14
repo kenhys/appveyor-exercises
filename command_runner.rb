@@ -154,6 +154,7 @@ module CommandRunner
           :out => output_write,
           :err => @error_output_log_path.to_s,
         }
+        p *command_line
         pid = spawn(env, *command_line, options)
         input_read.close
         output_write.close
