@@ -115,8 +115,10 @@ module CommandRunner
           program_path,
         ]
       else
+        program_path_with_exe = "#{program_path}.exe"
         candidates = [
           program_path,
+          program_path_with_exe,
           libs_lt_program_path,
           libs_program_path,
         ]
@@ -124,7 +126,6 @@ module CommandRunner
 
       candidates.each do |candidate_program_path|
         return candidate_program_path if File.exist?(candidate_program_path)
-        p "#{candidate_program_path}.exe" if File.exist?("#{candidate_program_path}.exe")
       end
     end
 
