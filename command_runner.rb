@@ -128,6 +128,7 @@ module CommandRunner
         return candidate_program_path if File.exist?(candidate_program_path)
         p "check... #{candidate_program_path}" if candidate_program_path.begin_with?("C:\\projects")
       end
+      p "check... #{path} FAIL!"
     end
     p "CAN'T FIND #{name}!!!"
 
