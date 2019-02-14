@@ -124,8 +124,7 @@ module CommandRunner
 
       candidates.each do |candidate_program_path|
         return candidate_program_path if File.exist?(candidate_program_path)
-        p "check .exe"
-        p if File.exist?("#{candidate_program_path}.exe")
+        p "#{candidate_program_path}.exe" if File.exist?("#{candidate_program_path}.exe")
       end
     end
 
