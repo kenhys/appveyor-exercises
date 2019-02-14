@@ -105,6 +105,7 @@ module CommandRunner
   def find_program(name, options={})
     ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
       program_path = File.join(path, name)
+      program_path_with_exe = "#{program_path}.exe"
       libs_lt_program_path = File.join(path, ".libs", "lt-#{name}")
       libs_program_path = File.join(path, ".libs", name)
       if options[:prefer_libtool]
@@ -112,9 +113,9 @@ module CommandRunner
           libs_lt_program_path,
           libs_program_path,
           program_path,
+          program_path_with_exe,
         ]
       else
-        program_path_with_exe = "#{program_path}.exe"
         candidates = [
           program_path,
           program_path_with_exe,
@@ -154,7 +155,7 @@ module CommandRunner
           :out => output_write,
           :err => @error_output_log_path.to_s,
         }
-        p *command_line
+        p command_line
         pid = spawn(env, *command_line, options)
         input_read.close
         output_write.close
