@@ -58,6 +58,7 @@ before_test:
 
 test_script:
   - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
+  - set
   - ruby groonga\test\command_line\run-test.rb
      --groonga-install-prefix=%GROONGA_INSTALL_FOLDER%
 
