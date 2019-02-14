@@ -51,11 +51,13 @@ before_test:
   - del groonga\test\command\suite\select\filter\equal\vector_element_float.test
   - ps: Start-FileDownload 'https://packages.groonga.org/windows/groonga/groonga-9.0.0-x64.zip'
   - 7z x groonga-9.0.0-x64.zip
+  - mv groonga-9.0.0-x64 %TEST_INSTLL_FOLDER%
+  - ps: $Env:GROONGA_INSTALL_FOLDER = (Join-Path $Env:TEST_INSTALL_FOLDER groonga-9.0.0-x64)
 
 test_script:
-  - set PATH=groonga-9.0.0-x64\bin;%PATH%
+  - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
   - ruby groonga\test\command_line\run-test.rb
-     --groonga-install-prefix=%FULL_GROONGA_INSTALL_FOLDER%
+     --groonga-install-prefix=%GROONGA_INSTALL_FOLDER%
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
