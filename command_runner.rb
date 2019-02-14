@@ -103,7 +103,6 @@ module CommandRunner
   end
 
   def find_program(name, options={})
-    p ENV["PATH"]
     ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
       program_path = File.join(path, name)
       libs_lt_program_path = File.join(path, ".libs", "lt-#{name}")
@@ -128,6 +127,7 @@ module CommandRunner
         return candidate_program_path if File.exist?(candidate_program_path)
       end
     end
+    p "CAN'T FIND #{name}!!!"
 
     name
   end
