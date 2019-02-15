@@ -55,6 +55,7 @@ before_test:
   - ps: $Env:GROONGA_INSTALL_FOLDER = (Join-Path $Env:TEST_INSTALL_FOLDER groonga-9.0.0-x64)
   - ps: Start-FileDownload 'https://raw.githubusercontent.com/kenhys/appveyor-langpack/command-line/command_runner.rb'
   - copy /Y command_runner.rb groonga\test\command_line\helper\
+  - copy /Y run-test.rb groonga\test\command_line\
 
 test_script:
   - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
