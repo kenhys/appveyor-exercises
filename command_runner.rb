@@ -126,9 +126,9 @@ module CommandRunner
 
       candidates.each do |candidate_program_path|
         return candidate_program_path if File.exist?(candidate_program_path)
-        p "check... #{candidate_program_path}" if candidate_program_path.start_with?("C:\\projects")
+        p "check... #{candidate_program_path}" if path.start_with?("C:\\projects")
       end
-      p "check... #{path} FAIL!"
+      p "check... #{path} FAIL!" if path.start_with?("C:\\projects")
     end
     p "CAN'T FIND #{name}!!!"
 
