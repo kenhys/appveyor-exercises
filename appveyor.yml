@@ -39,7 +39,7 @@ build_script:
 #  - cmake --build . --config RelWithDebInfo --target Install
 #  - ps: Start-FileDownload 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
   - appveyor DownloadFile https://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip
-  - 7z x mariadb-mariadb-10.3.12-winx64.zip
+  - 7z x mariadb-10.3.12-winx64.zip
   - set PACKAGE_BASE_DIR=.\mariadb-10.3.12-winx64
   - set INSTALL_SCRIPT=.\install-mroonga.ps1
   - set
