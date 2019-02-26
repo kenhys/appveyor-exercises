@@ -33,10 +33,10 @@ build_script:
   - if "%ARCH%" == "amd64"
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% Win64
   - set
-  - cmake . -G "%CMAKE_GENERATOR_NAME%"
-      -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
-  - cmake --build . --config RelWithDebInfo
-  - cmake --build . --config RelWithDebInfo --target Install
+#  - cmake . -G "%CMAKE_GENERATOR_NAME%"
+#      -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
+#  - cmake --build . --config RelWithDebInfo
+#  - cmake --build . --config RelWithDebInfo --target Install
 #  - ps: Start-FileDownload 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
   - appveyor DownloadFile https://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip
   - 7z x mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%.zip
