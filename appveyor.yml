@@ -37,7 +37,8 @@ build_script:
       -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
-  - ps: Start-FileDownload 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
+#  - ps: Start-FileDownload 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
+  - curl -o mariadb-10.3.12-winx64.zip 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
   - 7z x mariadb-%MARIADB_VERSION%-%MROONGA_PLATFORM%.zip
   - set PACKAGE_BASE_DIR=.\mariadb-10.3.12-winx64
   - set INSTALL_SCRIPT=.\install-mroonga.ps1
