@@ -43,7 +43,7 @@ build_script:
   - set MARIADB_VERSION=10.3.12
   - set MROONGA_PLATFORM=winx64
   - set
-  - ps: $command = "$env:MROONGA_INSTALL_SCRIPT -mariadbVersion $env:MARIADB_VERSION -platforms $env:MARIADB_PLATFORM"; Invoke-Expression $command
+  - ps: $command = "$env:MROONGA_INSTALL_SCRIPT -mariadbVersion $env:MARIADB_VERSION -platforms $env:MROONGA_PLATFORM"; Invoke-Expression $command
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
