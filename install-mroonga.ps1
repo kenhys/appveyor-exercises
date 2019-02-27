@@ -1,8 +1,8 @@
 
 Param(
   [Parameter(mandatory=$true)][String]$workDir,
-  [Parameter(mandatory=$tru)][String]$mariadbVersion,
-  [Parameter(mandatory=$true)][String[]]$platforms,
+  [Parameter(mandatory=$true)][String]$mariadbVersion,
+  [Parameter(mandatory=$true)][String[]]$platforms
 )
 
 cd $workDir
