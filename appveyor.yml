@@ -39,7 +39,7 @@ build_script:
 #  - ps: Start-FileDownload 'http://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip'
   - appveyor DownloadFile https://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip
   - 7z x mariadb-10.3.12-winx64.zip
-  - set PACKAGE_BASE_DIR=.\mariadb-10.3.12-winx64
+  - set PACKAGE_BASE_DIR=.
   - set MROONGA_INSTALL_SCRIPT=.\install-mroonga.ps1
   - set
   - ps: $command = "$env:MROONGA_INSTALL_SCRIPT -workDir $env:PACKAGE_BASE_DIR -mariadbVersion 10.3.12 -platforms winx64"; Invoke-Expression $command
