@@ -32,7 +32,6 @@ build_script:
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% 2017
   - if "%ARCH%" == "amd64"
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% Win64
-  - set
 #  - cmake . -G "%CMAKE_GENERATOR_NAME%"
 #      -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
 #  - cmake --build . --config RelWithDebInfo
@@ -41,9 +40,9 @@ build_script:
   - appveyor DownloadFile https://packages.groonga.org/tmp/mariadb-10.3.12-winx64.zip
   - 7z x mariadb-10.3.12-winx64.zip
   - set PACKAGE_BASE_DIR=.\mariadb-10.3.12-winx64
-  - set INSTALL_SCRIPT=.\install-mroonga.ps1
+  - set MROONGA_INSTALL_SCRIPT=.\install-mroonga.ps1
   - set
-  - ps: $env:INSTALL_SCRIPT -workDir $env:PACKAGE_BASE_DIR -mariadbVersion 10.3.12 -platforms winx64
+  - ps: $command = "$env:MROONGA_INSTALL_SCRIPT -workDir $env:PACKAGE_BASE_DIR -mariadbVersion 10.3.12 -platforms winx64"; Invoke-Expression $command
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
