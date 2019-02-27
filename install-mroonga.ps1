@@ -2,7 +2,6 @@
 Param(
   [Parameter(mandatory=$true)][String]$workDir,
   [Parameter(mandatory=$tru)][String]$mariadbVersion,
-  [Parameter(mandatory=$true)][String]$mroongaVersion,
   [Parameter(mandatory=$true)][String[]]$platforms,
 )
 
