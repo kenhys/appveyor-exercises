@@ -1,11 +1,8 @@
 
 Param(
-  [Parameter(mandatory=$true)][String]$workDir,
   [Parameter(mandatory=$true)][String]$mariadbVersion,
   [Parameter(mandatory=$true)][String[]]$platforms
 )
-
-cd $workDir
 
 function Wait-UntilRunning($cmdName) {
   do
