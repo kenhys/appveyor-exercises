@@ -23,7 +23,7 @@ install:
       call
       "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\vcvarsall.bat"
       %ARCH%
-  - chcp 65001
+#  - chcp 65001
   - set INSTALL_FOLDER_NAME=インストール
   - ps: $Env:TEST_INSTALL_FOLDER = (Join-Path $Env:APPVEYOR_BUILD_FOLDER $Env:INSTALL_FOLDER_NAME)
 
