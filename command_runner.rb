@@ -103,22 +103,21 @@ module CommandRunner
   end
 
   def find_program(name, options={})
+    name += RbConfig::CONFIG["EXEEXT"]
     ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
-      program_path = File.join(path, name)
-      program_path_with_exe = "#{program_path}.exe"
-      libs_lt_program_path = File.join(path, ".libs", "lt-#{name}")
-      libs_program_path = File.join(path, ".libs", name)
+      separator = File::ALT_SEPARATOR || File::SEPARATOR
+      program_path = [path, name].join(separator)
+      libs_lt_program_path = [path, ".libs", "lt-#{name}"].join(separator)
+      libs_program_path = [path, ".libs", name].join(separator)
       if options[:prefer_libtool]
         candidates = [
           libs_lt_program_path,
           libs_program_path,
           program_path,
-          program_path_with_exe,
         ]
       else
         candidates = [
           program_path,
-          program_path_with_exe,
           libs_lt_program_path,
           libs_program_path,
         ]
@@ -155,7 +154,6 @@ module CommandRunner
 
   private
   def run_command_interactive(*command_line)
-    env = {}
     IO.pipe do |input_read, input_write|
       IO.pipe do |output_read, output_write|
         options = {
@@ -163,8 +161,7 @@ module CommandRunner
           :out => output_write,
           :err => @error_output_log_path.to_s,
         }
-        p command_line
-        pid = spawn(env, *command_line, options)
+        pid = spawn(*command_line, options)
         input_read.close
         output_write.close
         external_process = ExternalProcess.new(pid, input_write, output_read)
@@ -184,12 +181,11 @@ module CommandRunner
   end
 
   def run_command_sync(*command_line)
-    env = {}
     options = {
       :out => @output_log_path.to_s,
       :err => @error_output_log_path.to_s,
     }
-    succeeded = system(env, *command_line, options)
+    succeeded = system(*command_line, options)
     output = @output_log_path.read
     error_output = @error_output_log_path.read
     unless succeeded
