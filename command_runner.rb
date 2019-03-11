@@ -129,14 +129,6 @@ module CommandRunner
       end
       p "check... #{path} FAIL!" if path.start_with?("C:\\projects")
     end
-    p "CAN'T FIND #{name}!!!"
-    path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.0-x64\\bin\\groonga"
-    p path
-    p File.exist?(path)
-    path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.0-x64\\bin\\groonga.exe"
-    p path
-    p File.exist?(path)
-
     name
   end
 
