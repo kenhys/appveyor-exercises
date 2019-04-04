@@ -61,10 +61,10 @@ ARGV.unshift("--max-diff-target-string-size=5000")
 p "CHECK PATH"
 p "glob */groonga.exe"
 p Dir.glob("*/groonga.exe")
-path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.0-x64\\bin\\groonga"
+path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.1-x64\\bin\\groonga"
 p path
 p File.exist?(path)
-path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.0-x64\\bin\\groonga.exe"
+path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.1-x64\\bin\\groonga.exe"
 p path
 p File.exist?(path)
 
