@@ -22,6 +22,7 @@ end
 
 p groonga_install_prefix
 p groonga_install_prefix.encoding
+p groonga_install_prefix.encode("UTF-8")
 if groonga_install_prefix
   ENV["PATH"] = [
     [groonga_install_prefix, "bin"].join(File::ALT_SEPARATOR || File::SEPARATOR),
