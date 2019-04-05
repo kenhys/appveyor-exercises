@@ -63,7 +63,9 @@ test_script:
   - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
   - set
   - ruby groonga\test\command_line\run-test.rb
-     --groonga-install-prefix=C:\projects\appveyor-exercises\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\groonga-9.0.0-x64
+     --groonga-install-prefix=%GROONGA_INSTALL_FOLDER%
+#  - ruby groonga\test\command_line\run-test.rb
+#     --groonga-install-prefix=C:\projects\appveyor-exercises\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\groonga-9.0.0-x64
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
