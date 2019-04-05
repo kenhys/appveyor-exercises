@@ -21,6 +21,7 @@ if (ARGV[0] || "").start_with?("--groonga-install-prefix=")
 end
 
 p groonga_install_prefix
+p groonga_install_prefix.encoding
 if groonga_install_prefix
   ENV["PATH"] = [
     [groonga_install_prefix, "bin"].join(File::ALT_SEPARATOR || File::SEPARATOR),
@@ -61,6 +62,8 @@ ARGV.unshift("--max-diff-target-string-size=5000")
 p "CHECK PATH"
 p "glob */groonga.exe"
 p Dir.glob("*/groonga.exe")
+p "glob *"
+p Dir.glob("*")
 path = "c:\\projects\\appveyor-exercises"
 p Dir.glob("#{path}\\*")
 path = "c:\\projects\\appveyor-exercises\\\u7E67\uFF64\u7E5D\uFF73\u7E67\uFF79\u7E5D\u533B\u30FB\u7E5D\uFF6B\\groonga-9.0.1-x64\\bin\\groonga"
