@@ -90,5 +90,9 @@ p "groonga_install_prefix"
 path = "#{groonga_install_prefix}/bin/groonga.exe"
 p path
 p File.exist?(path)
+p "groonga_install_prefix remove escape"
+path = "#{groonga_install_prefix.gsub(/\\/, '\')}/bin/groonga.exe"
+p path
+p File.exist?(path)
 
 exit(Test::Unit::AutoRunner.run(true, (source_base_dir_path + "suite").to_s))
