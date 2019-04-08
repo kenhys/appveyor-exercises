@@ -90,7 +90,7 @@ p "groonga_install_prefix"
 path = "#{groonga_install_prefix}/bin/groonga.exe"
 p path
 p File.exist?(path)
-p "groonga_install_prefix remove escape"
+p "groonga_install_prefix unescape escape"
 unescaped = groonga_install_prefix.gsub(/\\u[\dafA-F]{4}/) { [$1].pack('H*').unpack('n*').pack('U*') }
 path = "#{unescaped}/bin/groonga.exe"
 p path
