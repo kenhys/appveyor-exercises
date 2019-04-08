@@ -69,7 +69,7 @@ test_script:
      --n-workers 2
      --timeout 60
      --n-retries 2
-     test\command\suite
+     groonga\test\command\suite
 #  - ruby groonga\test\command_line\run-test.rb
 #     --groonga-install-prefix=%GROONGA_INSTALL_FOLDER%
 #  - ruby groonga\test\command_line\run-test.rb
