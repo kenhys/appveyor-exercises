@@ -53,7 +53,7 @@ before_test:
   - del groonga\test\command\suite\select\filter\equal\vector_element_float.test
   - ps: Start-FileDownload 'https://packages.groonga.org/windows/groonga/groonga-9.0.1-x64.zip'
   - 7z x groonga-9.0.1-x64.zip
-  - mv groonga-9.0.1-x64 %TEST_INSTALL_FOLDER%
+  - mv groonga-9.0.1-x64 %TEST_INSTALL_FOLDER%\
   - ps: $Env:GROONGA_INSTALL_FOLDER = (Join-Path $Env:TEST_INSTALL_FOLDER groonga-9.0.1-x64)
   - ps: Start-FileDownload 'https://raw.githubusercontent.com/kenhys/appveyor-exercises/command-line/command_runner.rb'
   - copy /Y command_runner.rb groonga\test\command_line\helper\
