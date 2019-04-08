@@ -63,7 +63,7 @@ before_test:
 test_script:
   - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
   - ruby groonga\test\command\bin\grntest
-     --groonga %GROONGA_INSTALL_FOLDER%\bin\groonga.exe
+     --groonga %TEST_INSTALL_FOLDER%\bin\groonga.exe
      --base-directory test\command
      --reporter mark
      --n-workers 2
