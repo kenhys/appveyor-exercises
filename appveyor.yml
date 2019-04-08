@@ -6,6 +6,10 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       VS_VERSION: 15
       ARCH: amd64
+      BUNDLE_RUNTIME: "yes"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VERSION: 15
+      ARCH: amd64
 
 init:
   - ps: Set-WinSystemLocale ja-JP
@@ -13,6 +17,7 @@ init:
   - ps: Restart-Computer
 
 install:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - if "%VS_VERSION%" == "15" if "%ARCH%" == "x86" set VS2017_X86=TRUE
   - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" set VS2017_AMD64=TRUE
   - if "%VS2017_X86%" == "TRUE"
