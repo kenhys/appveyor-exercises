@@ -25,7 +25,8 @@ install:
       %ARCH%
 #  - chcp 65001
   - chcp
-  - set INSTALL_FOLDER_NAME=インストール
+#  - set INSTALL_FOLDER_NAME=インストール
+  - set INSTALL_FOLDER_NAME=install
   - ps: $Env:TEST_INSTALL_FOLDER = (Join-Path $Env:APPVEYOR_BUILD_FOLDER $Env:INSTALL_FOLDER_NAME)
 
 build_script:
@@ -61,7 +62,14 @@ before_test:
 
 test_script:
   - set PATH=%GROONGA_INSTALL_FOLDER%\bin;%PATH%
-  - set
+  - ruby groonga\test\command\bin\grntest
+     --groonga %GROONGA_INSTALL_FOLDER%\bin\groonga.exe
+     --base-directory test\command
+     --reporter mark
+     --n-workers 2
+     --timeout 60
+     --n-retries 2
+     test\command\suite
 #  - ruby groonga\test\command_line\run-test.rb
 #     --groonga-install-prefix=%GROONGA_INSTALL_FOLDER%
 #  - ruby groonga\test\command_line\run-test.rb
