@@ -24,8 +24,11 @@ p groonga_install_prefix
 p groonga_install_prefix.encoding
 p groonga_install_prefix.encode("UTF-8")
 if groonga_install_prefix
+  unescaped = groonga_install_prefix.gsub(/\\u[\dafA-F]{4}/) { [$1].pack('H*').unpack('n*').pack('U*') }
+  p unescaped
   ENV["PATH"] = [
     [groonga_install_prefix, "bin"].join(File::ALT_SEPARATOR || File::SEPARATOR),
+    [unescaped, "bin"].join(File::ALT_SEPARATOR || File::SEPARATOR),
     ENV["PATH"],
   ].join(File::PATH_SEPARATOR)
 else
