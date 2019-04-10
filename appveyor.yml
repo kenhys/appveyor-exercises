@@ -57,8 +57,8 @@ on_success:
   - if "%ARCH%" == "amd64" set ARCH=x64
   - ps: |
       if ($Env:VS_VERSION -eq "15") { 
-        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\{$Env:REDIST_VERSION}\{$Env:ARCH}\Microsoft.VC141.CRT\vcruntime140.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\{$Env:REDIST_VERSION}\{$Env:ARCH}\Microsoft.VC141.CRT\msvcp140.dll"
+        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\msvcp140.dll"
       }
       if ($Env:VS_VERSION -eq "14") {
         $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio {$Env:VS_VERSION}.0\VC\redist\{$Env:ARCH}\Microsoft.VC140.CRT\vcruntime140.dll"
