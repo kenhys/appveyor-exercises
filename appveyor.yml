@@ -55,17 +55,19 @@ on_success:
   - if "%VS_VERSION%" == "15"
       set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
   - if "%ARCH%" == "amd64" set ARCH=x64
-  - if "%VS_VERSION%" == "15" 
-      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\vcruntime140.dll"
-      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\msvcp140.dll"
-  - if "%VS_VERSION%" == "14"
-      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\vcruntime140.dll"
-  - if "%VS_VERSION%" == "14"
-      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\msvcp140.dll"
-  - if "%VS_VERSION%" == "12"
-      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcr120.dll"
-  - if "%VS_VERSION%" == "12"
-      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcp120.dll"
+  - ps: |
+      if ($Env:VS_VERSION == "15") { 
+        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\msvcp140.dll"
+      }
+      if ($Env:VS_VERSION == "14") {
+        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\msvcp140.dll"
+      }
+      if ($Env:VS_VERSION  == "12") {
+        $Env:VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcr120.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcp120.dll"
+      }
   - set
   - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTALL_FOLDER%
   - xcopy %VCREDIST_MSVCP% %TEST_INSTALL_FOLDER%
