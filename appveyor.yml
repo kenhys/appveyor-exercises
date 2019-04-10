@@ -66,7 +66,7 @@ on_success:
   - if "%VS_VERSION%" == "12"
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcr120.dll"
   - if "%VS_VERSION%" == "12"
-      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\msvcp120.dll"
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcp120.dll"
   - set
   - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTALL_FOLDER%
   - xcopy %VCREDIST_MSVCP% %TEST_INSTALL_FOLDER%
