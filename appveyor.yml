@@ -58,19 +58,19 @@ on_success:
   - ps: |
       if ($Env:VS_VERSION -eq "15") { 
         $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\vcruntime140.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT/msvcp140.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\msvcp140.dll"
       }
       if ($Env:VS_VERSION -eq "14") {
-        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio {$Env:VS_VERSION}.0\VC\redist\{$Env:ARCH}\Microsoft.VC140.CRT\vcruntime140.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio {$Env:VS_VERSION}.0\VC\redist\{$Env:ARCH}\Microsoft.VC140.CRT\msvcp140.dll"
+        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC140.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC140.CRT\msvcp140.dll"
       }
       if ($Env:VS_VERSION  -eq "12") {
-        $Env:VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio {$Env:VS_VERSION}.0\VC\redist\{$Env:ARCH}\Microsoft.VC120.CRT\msvcr120.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio {$Env:VS_VERSION}.0\VC\redist\{$Env:ARCH}\Microsoft.VC120.CRT\msvcp120.dll"
+        $Env:VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC120.CRT\msvcr120.dll"
+        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC120.CRT\msvcp120.dll"
       }
   - set
-  - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTALL_FOLDER%
-  - xcopy %VCREDIST_MSVCP% %TEST_INSTALL_FOLDER%
+  - xcopy "%VCREDIST_VCRUNTIME%" "%TEST_INSTALL_FOLDER%"
+  - xcopy "%VCREDIST_MSVCP%" "%TEST_INSTALL_FOLDER%"
   - set ARTIFACT=%TEST_INSTALL_FOLDER%-vcruntime.zip
   - 7z a %ARTIFACT% %TEST_INSTALL_FOLDER%
   - ps: Push-AppveyorArtifact $Env:ARTIFACT
