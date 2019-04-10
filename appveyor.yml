@@ -6,6 +6,19 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       VS_VERSION: 15
       ARCH: amd64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VERSION: 14
+      ARCH: amd64
+    - VS_VERSION: 12
+      ARCH: amd64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VERSION: 15
+      ARCH: x86
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VERSION: 14
+      ARCH: x86
+    - VS_VERSION: 12
+      ARCH: x86
 
 init:
   - ps: Set-WinSystemLocale ja-JP
@@ -23,7 +36,7 @@ install:
       call
       "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\vcvarsall.bat"
       %ARCH%
-  - set INSTALL_FOLDER_NAME=インストール
+  - set INSTALL_FOLDER_NAME=install
   - ps: $Env:TEST_INSTALL_FOLDER = (Join-Path $Env:APPVEYOR_BUILD_FOLDER $Env:INSTALL_FOLDER_NAME)
 
 build_script:
@@ -37,6 +50,30 @@ build_script:
       -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
+
+on_success:
+  - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" (
+      set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x64\Microsoft.VC141.CRT\vcruntime140.dll";
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x64\Microsoft.VC141.CRT\msvcp140.dll";
+    ) else (
+      set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x86\Microsoft.VC141.CRT\vcruntime140.dll";
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x86\Microsoft.VC141.CRT\msvcp140.dll";
+    )
+  - if "%VS_VERSION%" == "14" if "%ARCH%" == "amd64" (
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x64\vcruntime140.dll";
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x64\msvcp140.dll";
+    ) else (
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x86\vcruntime140.dll";
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x86\msvcp140.dll";
+    )
+  - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTLL_FOLDER%
+  - xcopy %VCREDIST_MSVCP% %TEST_INSTLL_FOLDER%
+  - set ARTIFACT=%TEST_INSTALL_FOLDER%-vcruntime.zip
+  - 7z a %ARTIFACT% %TEST_INSTALL_FOLDER%
+  - ps: Push-AppveyorArtifact $Env:ARTIFACT
+  - cd ..
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
