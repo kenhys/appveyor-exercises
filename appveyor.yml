@@ -56,16 +56,20 @@ on_success:
       set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
   - if "%ARCH%" == "amd64" set ARCH=x64
   - if "%VS_VERSION%" == "15" 
-      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x64\Microsoft.VC141.CRT\vcruntime140.dll"
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\vcruntime140.dll"
   - if "%VS_VERSION%" == "15" 
       set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\msvcp140.dll"
   - if "%VS_VERSION%" == "14"
-      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\%ARCH%\vcruntime140.dll"
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\vcruntime140.dll"
   - if "%VS_VERSION%" == "14"
-      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\%ARCH%\msvcp140.dll"
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\msvcp140.dll"
+  - if "%VS_VERSION%" == "12"
+      set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC120.CRT\msvcr120.dll"
+  - if "%VS_VERSION%" == "12"
+      set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\msvcp120.dll"
   - set
-  - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTLL_FOLDER%
-  - xcopy %VCREDIST_MSVCP% %TEST_INSTLL_FOLDER%
+  - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTALL_FOLDER%
+  - xcopy %VCREDIST_MSVCP% %TEST_INSATLL_FOLDER%
   - set ARTIFACT=%TEST_INSTALL_FOLDER%-vcruntime.zip
   - 7z a %ARTIFACT% %TEST_INSTALL_FOLDER%
   - ps: Push-AppveyorArtifact $Env:ARTIFACT
