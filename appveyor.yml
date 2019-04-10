@@ -52,12 +52,12 @@ build_script:
   - cmake --build . --config RelWithDebInfo --target Install
 
 on_success:
-  - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" (
+  - if "%VS_VERSION%" == "15"
       set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
+  - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" (
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x64\Microsoft.VC141.CRT\vcruntime140.dll";
       set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x64\Microsoft.VC141.CRT\msvcp140.dll";
     ) else (
-      set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x86\Microsoft.VC141.CRT\vcruntime140.dll";
       set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\x86\Microsoft.VC141.CRT\msvcp140.dll";
     )
@@ -68,6 +68,7 @@ on_success:
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x86\vcruntime140.dll";
       set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\Redist\x86\msvcp140.dll";
     )
+  - set
   - xcopy %VCREDIST_VCRUNTIME% %TEST_INSTLL_FOLDER%
   - xcopy %VCREDIST_MSVCP% %TEST_INSTLL_FOLDER%
   - set ARTIFACT=%TEST_INSTALL_FOLDER%-vcruntime.zip
