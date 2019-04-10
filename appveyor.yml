@@ -57,7 +57,6 @@ on_success:
   - if "%ARCH%" == "amd64" set ARCH=x64
   - if "%VS_VERSION%" == "15" 
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\vcruntime140.dll"
-  - if "%VS_VERSION%" == "15" 
       set VCREDIST_MSVCP="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\%REDIST_VERSION%\%ARCH%\Microsoft.VC141.CRT\msvcp140.dll"
   - if "%VS_VERSION%" == "14"
       set VCREDIST_VCRUNTIME="C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\redist\%ARCH%\Microsoft.VC140.CRT\vcruntime140.dll"
