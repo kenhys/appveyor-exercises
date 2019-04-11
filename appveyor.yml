@@ -50,7 +50,7 @@ build_script:
 #      -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
 #  - cmake --build . --config RelWithDebInfo
 #  - cmake --build . --config RelWithDebInfo --target Install
-   - mkdir %TEST_INSTALL_FOLDER%
+  - mkdir %TEST_INSTALL_FOLDER%
 
 on_success:
 #  - if "%VS_VERSION%" == "15"
