@@ -70,8 +70,8 @@ on_success:
         $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC120.CRT\msvcp120.dll"
       }
   - set
-  - xcopy "%VCREDIST_VCRUNTIME%" "%TEST_INSTALL_FOLDER%"
-  - xcopy "%VCREDIST_MSVCP%" "%TEST_INSTALL_FOLDER%"
+  - copy "%VCREDIST_VCRUNTIME%" "%TEST_INSTALL_FOLDER%"
+  - copy "%VCREDIST_MSVCP%" "%TEST_INSTALL_FOLDER%"
   - set ARTIFACT=%TEST_INSTALL_FOLDER%-vcruntime.zip
   - 7z a %ARTIFACT% %TEST_INSTALL_FOLDER%
   - ps: Push-AppveyorArtifact $Env:ARTIFACT
