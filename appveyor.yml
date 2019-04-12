@@ -57,18 +57,21 @@ on_success:
 #      set /p REDIST_VERSION=<"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt";
   - if "%ARCH%" == "amd64" set ARCH=x64
   - ps: |
-      if ($Env:VS_VERSION -eq "15") { 
+      if ($Env:VS_VERSION -eq "15") {
         $Env:REDIST_VERSION = (Get-Content "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\Microsoft.VCRedistVersion.default.txt")
-        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\vcruntime140.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH\Microsoft.VC141.CRT\msvcp140.dll"
+        $Env:VCREDIST_DIR = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\$Env:REDIST_VERSION\$Env:ARCH"
+        $Env:VCREDIST_VCRUNTIME = "$Env:VCREDIST_DIR\Microsoft.VC141.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "$Env:VCREDIST_DIR\Microsoft.VC141.CRT\msvcp140.dll"
       }
       if ($Env:VS_VERSION -eq "14") {
-        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC140.CRT\vcruntime140.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC140.CRT\msvcp140.dll"
+        $Env:VCREDIST_DIR = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH"
+        $Env:VCREDIST_VCRUNTIME = "$Env:VCREDIST_DIR\Microsoft.VC140.CRT\vcruntime140.dll"
+        $Env:VCREDIST_MSVCP = "$Env:VCREDIST_DIR\Microsoft.VC140.CRT\msvcp140.dll"
       }
       if ($Env:VS_VERSION  -eq "12") {
-        $Env:VCREDIST_VCRUNTIME = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC120.CRT\msvcr120.dll"
-        $Env:VCREDIST_MSVCP = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH\Microsoft.VC120.CRT\msvcp120.dll"
+        $Env:VCREDIST_DIR = "C:\Program Files (x86)\Microsoft Visual Studio $Env:VS_VERSION.0\VC\redist\$Env:ARCH"
+        $Env:VCREDIST_VCRUNTIME = "$Env:VCREDIST_DIR\Microsoft.VC120.CRT\msvcr120.dll"
+        $Env:VCREDIST_MSVCP = "$Env:VCREDIST_DIR\Microsoft.VC120.CRT\msvcp120.dll"
       }
   - set
   - copy "%VCREDIST_VCRUNTIME%" "%TEST_INSTALL_FOLDER%"
