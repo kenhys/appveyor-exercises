@@ -38,7 +38,7 @@ build_script:
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
   - if not "%VS_VERSION%" == "14" (
-       mkdir dummy
+       mkdir dummy ;
        copy LICENSE dummy
     )
 
