@@ -37,7 +37,7 @@ build_script:
       -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
-  - if not "%VS_VERSION%" == "15" (
+  - if not "%VS_VERSION%" == "14" (
        mkdir dummy
        copy LICENSE dummy
     )
