@@ -3,10 +3,10 @@ clone_depth: 10
 
 environment:
   matrix:
+    - VS_VERSION: 12
+      ARCH: amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       VS_VERSION: 15
-      ARCH: amd64
-    - VS_VERSION: 12
       ARCH: amd64
 
 init:
