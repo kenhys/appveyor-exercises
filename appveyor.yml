@@ -47,7 +47,7 @@ build_script:
         }
       }
   - ps: |
-      if ($Env:UCRT_REDIST_DIR -And $Env:UCRT_REDIST_DIR -ne "") {
+      if ($Env:UCRT_REDIST_DIR) {
         Copy-Item $Env:UCRT_REDIST_DIR\*.dll -Destination $Env:APPVEYOR_BUILD_FOLDER\
       }
 
