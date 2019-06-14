@@ -38,9 +38,9 @@ build_script:
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
   - ps: |
-    if ($Env:EMPTY -ne "") {
-      echo "Hello"
-    }
+      if ($Env:EMPTY -ne "") {
+        echo "Hello"
+      }
 
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
