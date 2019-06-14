@@ -6,6 +6,8 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       VS_VERSION: 15
       ARCH: amd64
+    - VS_VERSION: 12
+      ARCH: amd64
 
 init:
   - ps: Set-WinSystemLocale ja-JP
@@ -37,9 +39,16 @@ build_script:
       -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
+  - if "%ARCH%" == "amd64" set ARCH=x64
   - ps: |
-      if ($Env:EMPTY -ne "") {
-        echo "Hello"
+      switch -Exact ($Env:VS_VERSION) {
+        "15" {
+          $Env:UCRT_REDIST_DIR = "C:\Program Files (x86)\Windows Kits\10\Redist\ucrt\DLLs\$Env:ARCH"
+        }
+      }
+  - ps: |
+      if ($Env:UCRT_REDIST_DIR -ne "") {
+        Copy-Item $Env:UCRT_REDIST_DIR\*.dll -Destination $Env:APPVEYOR_BUILD_FOLDER\
       }
 
 on_finish:
