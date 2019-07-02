@@ -20,6 +20,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-arrow"
          "${MINGW_PACKAGE_PREFIX}-openssl"
          "${MINGW_PACKAGE_PREFIX}-pcre"
          "${MINGW_PACKAGE_PREFIX}-rapidjson"
+         "${MINGW_PACKAGE_PREFIX}-wineditline"
          "${MINGW_PACKAGE_PREFIX}-zeromq"
          "${MINGW_PACKAGE_PREFIX}-zlib"
          "${MINGW_PACKAGE_PREFIX}-zstd")
