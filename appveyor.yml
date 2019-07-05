@@ -3,12 +3,28 @@ clone_depth: 10
 
 environment:
   matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      VS_VERSION: 16
+      ARCH: amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       VS_VERSION: 15
       ARCH: amd64
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_VERSION: 17
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VERSION: 14
       ARCH: amd64
+    - VS_VERSION: 12
+      ARCH: amd64
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      VS_VERSION: 16
+      ARCH: x86
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      VS_VERSION: 15
+      ARCH: x86
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      VS_VERSION: 14
+      ARCH: x86
+    - VS_VERSION: 12
+      ARCH: x86
 
 init:
   - ps: Set-WinSystemLocale ja-JP
@@ -16,13 +32,13 @@ init:
   - ps: Restart-Computer
 
 install:
-  - if "%VS_VERSION%" == "15" if "%ARCH%" == "x86" set VS2017_X86=TRUE
-  - if "%VS_VERSION%" == "15" if "%ARCH%" == "amd64" set VS2017_AMD64=TRUE
-  - if "%VS2017_X86%" == "TRUE"
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
-  - if "%VS2017_AMD64%" == "TRUE"
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-  - if not "%VS_VERSION%" == "15"
+  - if "%VS_VERSION%" == "16" set VS_YEAR=2019
+  - if "%VS_VERSION%" == "15" set VS_YEAR=2017
+  - if %VS_VERSION% geq 15 if "%ARCH%" == "x86"
+      call "C:\Program Files (x86)\Microsoft Visual Studio\%VS_YEAR%\Community\VC\Auxiliary\Build\vcvars32.bat"
+  - if %VS_VERSION% geq 15 if "%ARCH%" == "amd64"
+      call "C:\Program Files (x86)\Microsoft Visual Studio\%VS_YEAR%\Community\VC\Auxiliary\Build\vcvars64.bat"
+  - if %VS_VERSION% lss 15
       call
       "C:\Program Files (x86)\Microsoft Visual Studio %VS_VERSION%.0\VC\vcvarsall.bat"
       %ARCH%
@@ -33,13 +49,24 @@ build_script:
   - set CMAKE_GENERATOR_NAME=Visual Studio %VS_VERSION%
   - if "%VS_VERSION%" == "15"
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% 2017
-  - if "%ARCH%" == "amd64"
+  - if "%VS_VERSION%" == "16"
+      set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% 2019
+  - if "%ARCH%" == "amd64" if %VS_VERSION% lss 16
       set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% Win64
+  - if "%ARCH%" == "x86" if %VS_VERSION% lss 16
+      set CMAKE_GENERATOR_NAME=%CMAKE_GENERATOR_NAME% Win32
   - set
-  - cmake . -G "%CMAKE_GENERATOR_NAME%"
-      -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
+  - if "%ARCH%" == "amd64" if %VS_VERSION% geq 16
+      cmake . -G "%CMAKE_GENERATOR_NAME%" -A x64
+        -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
+  - if "%ARCH%" == "x86" if %VS_VERSION% geq 16
+      cmake . -G "%CMAKE_GENERATOR_NAME%" -A Win32
+        -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
+  - if %VS_VERSION% lss 16
+      cmake . -G "%CMAKE_GENERATOR_NAME%"
+        -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - cmake --build . --config RelWithDebInfo
   - cmake --build . --config RelWithDebInfo --target Install
 
-on_finish:
+on_failure:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
