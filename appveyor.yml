@@ -33,6 +33,7 @@ init:
 
 install:
   - set PATH=C:\Ruby25-x64\bin;%PATH%
+  - set PATH=C:\msys64\usr\bin;%PATH%
   - if "%VS_VERSION%" == "16" set VS_YEAR=2019
   - if "%VS_VERSION%" == "15" set VS_YEAR=2017
   - if %VS_VERSION% geq 15 if "%ARCH%" == "x86"
