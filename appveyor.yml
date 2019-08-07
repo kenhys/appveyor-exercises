@@ -54,6 +54,7 @@ build_script:
   - 7z x groonga-9.0.6-x64.zip
 
 before_test:
+  - cd groonga
   - git clone --depth 1
       https://github.com/groonga/grntest.git
       test\command\grntest
