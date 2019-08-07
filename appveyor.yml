@@ -49,7 +49,7 @@ install:
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%\..
   - choco install -y curl 7zip.commandline
-  - git clone --depth https://github.com/groonga/groonga.git
+  - git clone --depth 1 https://github.com/groonga/groonga.git
   - curl -O http://packages.groonga.org/windows/groonga/groonga-9.0.6-x64.zip
   - 7z x groonga-9.0.6-x64.zip
 
