@@ -46,6 +46,7 @@ install:
       %ARCH%
   - set INSTALL_FOLDER_NAME=インストール
   - ps: $Env:TEST_INSTALL_FOLDER = (Join-Path $Env:APPVEYOR_BUILD_FOLDER $Env:INSTALL_FOLDER_NAME)
+  - ridk install
 
 build_script:
   - cd %APPVEYOR_BUILD_FOLDER%\..
