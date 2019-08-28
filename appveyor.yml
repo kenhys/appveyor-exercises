@@ -44,7 +44,7 @@ build_script:
       cmake . -G "%CMAKE_GENERATOR_NAME%" -A Win32
         -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
   - choco install -y curl 7zip.commandline
-  - curl -O http://ftp.osuosl.org/pub/mariadb/mariadb-10.4.7-winx64.zip
+  - curl -O https://packages.groonga.org/tmp/mariadb-10.4.7-with-mroonga-9.07-winx64.zip
   - 7z x mariadb-10.4.7-winx64.zip
   - cd mariadb-10.4.7
   - rmdir /S /Q data
