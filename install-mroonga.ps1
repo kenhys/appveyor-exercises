@@ -9,13 +9,10 @@ function Wait-UntilRunning($cmdName) {
     Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Write-Output "Wait-UntilRunning"
-    Write-Output $Running
-    Write-Output $Running.Age
-    Write-Output $Running.Age.TotalSeconds
-    if ($Running -and ($Running.Age.TotalSeconds -lt 10)) {
+    if ($Running -and ($(Get-Date) - $Running.StartTime) -lt 10) {
       Write-Output "< 10 sec"
     }
-  } while (!$Running -or ($Running -and $Running.Age.TotalSeconds -lt 10))
+  } while (!$Running -or (($(Get-Date) - $Running.StartTime) -lt 10))
 }
 
 function Wait-UntilTerminate($cmdName) {
