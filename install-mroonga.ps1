@@ -6,17 +6,21 @@ Param(
 function Wait-UntilRunning($cmdName) {
   do
   {
-    Start-Sleep -s 5
+    Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Write-Output "Wait-UntilRunning"
     Write-Output $Running
+    Write-Output $Running.Age
+    if ($Running.Age.TotalSeconds < 10) {
+      Write-Output "< 10 sec"
+    }
   } while (!$Running)
 }
 
 function Wait-UntilTerminate($cmdName) {
   do
   {
-    Start-Sleep -s 5
+    Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Write-Output "Wait-UntilTerminate"
     Write-Output $Running
