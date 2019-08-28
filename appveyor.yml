@@ -3,28 +3,9 @@ clone_depth: 10
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_VERSION: 16
-      ARCH: amd64
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      VS_VERSION: 15
-      ARCH: amd64
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       VS_VERSION: 14
       ARCH: amd64
-    - VS_VERSION: 12
-      ARCH: amd64
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      VS_VERSION: 16
-      ARCH: x86
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      VS_VERSION: 15
-      ARCH: x86
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      VS_VERSION: 14
-      ARCH: x86
-    - VS_VERSION: 12
-      ARCH: x86
 
 init:
   - ps: Set-WinSystemLocale ja-JP
@@ -62,11 +43,15 @@ build_script:
   - if "%ARCH%" == "x86" if %VS_VERSION% geq 16
       cmake . -G "%CMAKE_GENERATOR_NAME%" -A Win32
         -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
-  - if %VS_VERSION% lss 16
-      cmake . -G "%CMAKE_GENERATOR_NAME%"
-        -DCMAKE_INSTALL_PREFIX=%TEST_INSTALL_FOLDER%
-  - cmake --build . --config RelWithDebInfo
-  - cmake --build . --config RelWithDebInfo --target Install
+  - choco install -y curl 7zip.commandline
+  - curl -O http://ftp.osuosl.org/pub/mariadb/mariadb-10.4.7-winx64.zip
+  - 7z x mariadb-10.4.7-winx64.zip
+  - cd mariadb-10.4.7
+  - rmdir /S /Q data
+  - cd bin
+  - .\mysql_install_db.exe
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - .\install-mroonga.ps1 10.4.7 winx64
 
 on_failure:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
