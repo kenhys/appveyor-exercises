@@ -11,10 +11,10 @@ function Wait-UntilRunning($cmdName) {
     Write-Output "Wait-UntilRunning"
     Write-Output $Running
     Write-Output $Running.Age
-    if ($Running.Age.TotalSeconds -lt 10) {
+    if ($Running -and ($Running.Age.TotalSeconds -lt 10)) {
       Write-Output "< 10 sec"
     }
-  } while (!$Running)
+  } while (!$Running -or ($Running -and $Running.Age.TotalSeconds -lt 10))
 }
 
 function Wait-UntilTerminate($cmdName) {
