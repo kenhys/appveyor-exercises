@@ -11,7 +11,7 @@ function Wait-UntilRunning($cmdName) {
     Write-Output "Wait-UntilRunning"
     Write-Output $Running
     Write-Output $Running.Age
-    if ($Running.Age.TotalSeconds < 10) {
+    if ($Running.Age.TotalSeconds -lt 10) {
       Write-Output "< 10 sec"
     }
   } while (!$Running)
