@@ -15,6 +15,7 @@ function Wait-UntilRunning($cmdName) {
         Write-Output("waiting {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
       } else {
         $Waiting = $FALSE
+      }
     } else {
       $Waiting = $FALSE
     }
