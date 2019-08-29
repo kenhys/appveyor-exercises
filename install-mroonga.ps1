@@ -12,9 +12,10 @@ function Wait-UntilRunning($cmdName) {
     if ($Running) {
       $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
       if ($Elapsed -lt 10) {
-        Write-Output("waiting {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
+        Write-Output("waiting {0} seconds" -f $Elapsed)
       } else {
         $Waiting = $FALSE
+        Write-Output("wait to run {0} in 10 seconds" -f $cmdName)
       }
     } else {
       $Waiting = $FALSE
@@ -23,14 +24,24 @@ function Wait-UntilRunning($cmdName) {
 }
 
 function Wait-UntilTerminate($cmdName) {
+  $Waiting = $TRUE
   do
   {
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Start-Sleep -m 500
-    if ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds) -lt 10) {
-      Write-Output("waiting terminate process {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
+    if ($Running) {
+      $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
+      if ($Elapsed -lt 10) {
+        Write-Output("waiting terminate process {0} seconds" -f $Elapsed)
+      } else {
+        $Waiting = $FALSE
+        Write-Output("wait to terminate {0} in 10 seconds" -f $cmdName)
+      }
+    } else {
+      Write-Output("{0} was terminated" -f $cmdName)
+      $Waiting = $FALSE
     }
-  } while ($Running)
+  } while ($Waiting)
 }
 
 function Install-Mroonga($mariadbVer, $arch, $installSqlDir) {
