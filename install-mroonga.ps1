@@ -4,14 +4,21 @@ Param(
 )
 
 function Wait-UntilRunning($cmdName) {
+  $Waiting = $TRUE
   do
   {
-    $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
     Start-Sleep -s 1
-    if ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds) -lt 10) {
-      Write-Output("waiting {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
+    $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
+    if ($Running) {
+      $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
+      if ($Elapsed -lt 10) {
+        Write-Output("waiting {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
+      } else {
+        $Waiting = $FALSE
+    } else {
+      $Waiting = $FALSE
     }
-  } while (!$Running -or ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds -lt 10)))
+  } while ($Waiting)
 }
 
 function Wait-UntilTerminate($cmdName) {
