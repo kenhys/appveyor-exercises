@@ -53,5 +53,5 @@ build_script:
   - cd %APPVEYOR_BUILD_FOLDER%
   - ps: .\install-mroonga.ps1 -mariadbVersion 10.4.7 -platform winx64
 
-on_failure:
+on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
