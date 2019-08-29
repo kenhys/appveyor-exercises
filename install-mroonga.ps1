@@ -6,22 +6,22 @@ Param(
 function Wait-UntilRunning($cmdName) {
   do
   {
-    Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Write-Output "Wait-UntilRunning"
-    if ($Running -and ($(Get-Date) - $Running.StartTime).TotalSeconds -lt 10) {
-      Write-Output "< 10 sec"
+    Start-Sleep -s 1
+    if ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds) -lt 10) {
+      Write-Output("waiting {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
     }
-  } while (!$Running -or (($(Get-Date) - $Running.StartTime).TotalSeconds -lt 10))
+  } while (!$Running -or ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds -lt 10)))
 }
 
 function Wait-UntilTerminate($cmdName) {
   do
   {
-    Start-Sleep -s 1
     $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Write-Output "Wait-UntilTerminate"
-    Write-Output $Running
+    Start-Sleep -m 500
+    if ($Running -and (($(Get-Date) - $Running.StartTime).TotalSeconds) -lt 10) {
+      Write-Output("waiting terminate process {0} seconds" -f ($(Get-Date) - $Running.StartTime).TotalSeconds)
+    }
   } while ($Running)
 }
 
