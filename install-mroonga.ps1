@@ -13,6 +13,8 @@ function Wait-UntilRunning($cmdName) {
 	  $Version = Get-Content mysqld.txt | Select-String -Pattern "^Version:"
 	  if ($Version) {
 	    $Waiting = $FALSE
+	  } else {
+	    Write-Output $Version
 	  }
         }
       }
@@ -21,6 +23,8 @@ function Wait-UntilRunning($cmdName) {
 	  $Successful = Get-Content install.txt | Select-String -Pattern "successful"
 	  if ($Successful) {
 	    $Waiting = $FALSE
+	  } else {
+ 	    Write-Output $Successful
 	  }
         }
       }
@@ -37,6 +41,8 @@ function Wait-UntilTerminate($cmdName) {
       $Complete = Get-Content mysqld.txt | Select-String -Pattern "Shutdown complete"
       if ($Complete) {
         $Running = $FALSE
+      } else {
+        Write-Output $Complete
       }
     }
     Start-Sleep -s 1
