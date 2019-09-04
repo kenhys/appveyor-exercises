@@ -9,7 +9,7 @@ function Wait-UntilRunning($cmdName) {
   {
     switch ($cmdName) {
       "mysqld" {
-        if (Test-Path stderr.txt) {
+        if (Test-Path mysqld.txt) {
 	  $Version = Get-Content mysqld.txt | Select-String -Pattern "^Version:"
 	  if ($Version) {
 	    $Waiting = $FALSE
