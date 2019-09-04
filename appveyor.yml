@@ -51,6 +51,7 @@ build_script:
   - cd bin
   - .\mysql_install_db.exe
   - cd %APPVEYOR_BUILD_FOLDER%
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - ps: .\install-mroonga.ps1 -mariadbVersion 10.4.7 -platform winx64
 
 on_finish:
