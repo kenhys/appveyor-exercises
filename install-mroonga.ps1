@@ -7,53 +7,61 @@ function Wait-UntilRunning($cmdName) {
   $Waiting = $TRUE
   do
   {
-    Start-Sleep -s 1
-    $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    if ($Running) {
-      $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
-      if ($Elapsed -lt 10) {
-        Write-Output("waiting {0} seconds" -f $Elapsed)
-      } else {
-        $Waiting = $FALSE
-        Write-Output("wait to run {0} in 10 seconds" -f $cmdName)
+    switch ($cmdName) {
+      "mysqld" {
+        if (Test-Path stderr.txt) {
+	  $Version = Get-Content mysqld.txt | Select-String -Pattern "^Version:"
+	  if ($Version) {
+	    $Waiting = $FALSE
+	  }
+        }
       }
-    } else {
-      $Waiting = $FALSE
+      "mysql_install_db" {
+        if (Test-Path install.txt) {
+	  $Successful = Get-Content install.txt | Select-String -Pattern "successful"
+	  if ($Successful) {
+	    $Waiting = $FALSE
+	  }
+        }
+      }
     }
+    Start-Sleep -s 1
   } while ($Waiting)
 }
 
 function Wait-UntilTerminate($cmdName) {
-  $Waiting = $TRUE
+  $Running = $TRUE
   do
   {
-    $Running = Get-Process $cmdName -ErrorAction SilentlyContinue
-    Start-Sleep -m 500
-    if ($Running) {
-      $Elapsed = ($(Get-Date) - $Running.StartTime).TotalSeconds
-      if ($Elapsed -lt 10) {
-        Write-Output("waiting terminate process {0} seconds" -f $Elapsed)
-      } else {
-        $Waiting = $FALSE
-        Write-Output("wait to terminate {0} in 10 seconds" -f $cmdName)
+    if (Test-Path mysqld.txt) {
+      $Complete = Get-Content mysqld.txt | Select-String -Pattern "Shutdown complete"
+      if ($Complete) {
+        $Running = $FALSE
       }
-    } else {
-      Write-Output("{0} was terminated" -f $cmdName)
-      $Waiting = $FALSE
     }
-  } while ($Waiting)
+    Start-Sleep -s 1
+  } while ($Running)
 }
 
 function Install-Mroonga($mariadbVer, $arch, $installSqlDir) {
+  Write-Output("Start to install Mroonga")
   cd "mariadb-$mariadbVer-$arch"
-  Start-Process .\bin\mysqld.exe
-  Start-Sleep -s 10
-  #Wait-UntilRunning mysqld
+  if ("$mariadbVer" -eq "10.4.7") {
+    Write-Output("Clean data directory")
+    Remove-Item data -Recurse
+    Start-Process .\bin\mysql_install_db.exe -RedirectStandardOutput install.txt
+    Wait-UntilRunning mysql_install_db
+  }
+  Write-Output("Start mysqld.exe")
+  Start-Process .\bin\mysqld.exe -ArgumentList "--console" -RedirectStandardError mysqld.txt
+  Wait-UntilRunning mysqld
+  Write-Output("Execute install.sql")
   Get-Content "$installSqlDir\install.sql" | .\bin\mysql.exe -uroot
+  Write-Output("Shutdown mysqld.exe")
   Start-Process .\bin\mysqladmin.exe -ArgumentList "-uroot shutdown"
-  Start-Sleep -s 10
-  #Wait-UntilTerminate mysqld
+  Wait-UntilTerminate mysqld
   cd ..
+  Write-Output("Finished to install Mroonga")
 }
 
 $installSqlDir = ".\share\mroonga"
