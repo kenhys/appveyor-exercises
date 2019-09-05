@@ -15,6 +15,7 @@ function Run-MySQL {
         $Waiting = $FALSE
       }
     }
+    Start-Sleep -s 1
   } while ($Waiting)
 }
 
